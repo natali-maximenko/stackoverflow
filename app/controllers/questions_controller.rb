@@ -1,5 +1,4 @@
 class QuestionsController < ApplicationController
-  before_action :find_question, only: [:show]  
 
   def index
     @questions = Question.all 
@@ -8,8 +7,7 @@ class QuestionsController < ApplicationController
   def show
   end
 
-  def new
-    @question = Question.new    
+  def new   
   end
 
   def create
@@ -23,8 +21,8 @@ class QuestionsController < ApplicationController
 
   private
 
-  def find_question
-    @question = Question.find(params[:id])
+  def question
+    @question ||= params[:id] ? Question.find(params[:id]) : Question.new
   end
 
   def question_params
