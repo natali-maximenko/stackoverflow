@@ -31,7 +31,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'mini_magick', '~> 4.8'
 
 # Templates
-gem 'slim'
+gem 'slim-rails'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -48,6 +48,7 @@ end
 
 group :test do
   gem 'shoulda-matchers'
+  gem 'rails-controller-testing'
 end
 
 group :development do
