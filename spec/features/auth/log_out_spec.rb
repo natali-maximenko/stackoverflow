@@ -9,9 +9,9 @@ feature "Log out", type: :feature do
     expect(page).to have_link 'test@gmail.com'
 
     click_on 'test@gmail.com'
-    expect(page).to have_link 'logout'
+    expect(page).to have_link 'Logout'
 
-    click_on 'logout'
+    click_on 'Logout'
     expect(page).to have_content 'Signed out successfully.'
   end
 end
