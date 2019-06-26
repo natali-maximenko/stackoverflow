@@ -1,4 +1,4 @@
-feature "Log out", type: :feature do
+feature "Log out" do
   scenario "Existing user try to log out" do
     User.create!(email: 'test@gmail.com', password: '12345678')
 

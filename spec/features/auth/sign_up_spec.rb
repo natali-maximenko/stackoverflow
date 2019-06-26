@@ -1,4 +1,4 @@
-feature "Sign up", type: :feature do
+feature "Sign up" do
 
   background { visit new_user_registration_path }  
 
