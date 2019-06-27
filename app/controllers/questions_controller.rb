@@ -1,12 +1,12 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create]
+  before_action :find_question, only: [:show, :destroy]
 
   def index
     @questions = Question.all 
   end
   
   def show
-    question
   end
 
   def new
@@ -29,8 +29,8 @@ class QuestionsController < ApplicationController
 
   private
 
-  def question
-    @question ||= Question.find(params[:id])
+  def find_question
+    @question = Question.find(params[:id])
   end
 
   def question_params
