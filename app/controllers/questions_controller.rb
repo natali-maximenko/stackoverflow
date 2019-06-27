@@ -23,6 +23,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
+    check_user and return
     @question.destroy
     redirect_to questions_path, notice: 'Your question successfully destroyed.'
   end
@@ -35,5 +36,11 @@ class QuestionsController < ApplicationController
 
   def question_params
     params.require(:question).permit(:title, :body)
+  end
+
+  def check_user
+    unless current_user.author_of?(@question)
+      redirect_to root_path, notice:'Access denied' and return true
+    end
   end
 end
