@@ -1,4 +1,5 @@
-= link_to 'Ask question', new_question_path
+br
+p = link_to 'Ask question', new_question_path
 
 h3 Questions list
 
@@ -13,4 +14,8 @@ table.table.table-striped
       tr
         td= question.title
         td
-          = link_to 'show', question_path(question), class: 'show_question'
+          button.btn.btn-link type="button"
+            = link_to 'show', question_path(question)
+          - if user_signed_in? && current_user.author_of?(question)
+            button.btn.btn-link type="button"
+              = link_to 'destroy', question_path(question), method: :delete
