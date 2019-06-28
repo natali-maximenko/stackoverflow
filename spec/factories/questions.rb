@@ -13,6 +13,7 @@ FactoryBot.define do
     end
 
     factory :question_with_answers do
+      user
       transient do
         answers_count { 5 }
       end
