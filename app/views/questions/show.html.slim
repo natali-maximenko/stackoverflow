@@ -6,7 +6,7 @@ p =@question.body
     thead
       tr
         th
-          | Ответы
+          | Answers
         th colspan="3"
     tbody
       - @answers.each do |answer|
@@ -19,9 +19,9 @@ p =@question.body
 - if user_signed_in?
   div
     h4
-      | Добавить ответ
+      | Create Answer
     = form_with model: @answer, url: question_answers_path(@question) do |f|
-      = render 'layouts/errors', resource: @answer
+      div = render 'layouts/errors', resource: @answer
 
       .form-group
         = f.label :body, 'Your answer'

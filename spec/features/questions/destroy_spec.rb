@@ -11,7 +11,7 @@ feature "Destroy question", type: :feature do
   scenario 'Authenticated user destroy the question' do
     sign_in(user)
 
-    expect(page).to have_link 'destroy'#, question_path(user_question), method: :delete
+    expect(page).to have_link 'destroy'
     click_link 'destroy'
 
     expect(page).to have_content 'Your question successfully destroyed.'

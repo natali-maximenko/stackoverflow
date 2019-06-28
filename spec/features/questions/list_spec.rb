@@ -1,6 +1,5 @@
 feature "Questions list" do
   let!(:user) { create(:user) }
-  let(:titles) { ['First question', 'Second question', 'Third question'] }
   let!(:questions) { create_list(:question, 3, user: user) }
 
   scenario 'Authenticated user view questions' do
@@ -10,7 +9,7 @@ feature "Questions list" do
     expect(page).to have_content 'Questions list'
     questions.each do |q|
       expect(page).to have_content q.title
-    end  
+    end
   end
 
   scenario 'Non-authenticated user view questions' do
