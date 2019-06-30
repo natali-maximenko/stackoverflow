@@ -1,7 +1,7 @@
 feature "Destroy question", type: :feature do
-  let!(:user) { create(:user) }
-  let!(:user_question) { create(:question, user: user) }
-  let!(:other_user) { create(:user) }
+  given!(:user) { create(:user) }
+  given!(:user_question) { create(:question, user: user) }
+  given!(:other_user) { create(:user) }
 
   background do
     visit questions_path
@@ -10,8 +10,6 @@ feature "Destroy question", type: :feature do
 
   scenario 'Authenticated user destroy the question' do
     sign_in(user)
-
-    expect(page).to have_link 'destroy'
     click_link 'destroy'
 
     expect(page).to have_content 'Your question successfully destroyed.'

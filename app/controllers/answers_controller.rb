@@ -1,14 +1,8 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, only: [ :create ]
-  before_action :find_question, only: [:create, :show, :destroy]
-  before_action :find_answer, only: [:show, :destroy]
+  before_action :find_question, only: [:create]
+  before_action :find_answer, only: [:destroy]
   before_action :check_user, only: [:destroy]
-
-  def index
-    @answers = question.answers
-  end
-  
-  def new; end
   
   def create
     @answer = @question.answers.build(answer_params.merge(user: current_user))
@@ -19,13 +13,10 @@ class AnswersController < ApplicationController
       render 'questions/show'
     end
   end
-  
-  def show; end
 
   def destroy
-    check_user and return
     @answer.destroy
-    redirect_to question_path(@question), notice: 'Your answer successfully destroyed.'
+    redirect_to @answer.question, notice: 'Your answer successfully destroyed.'
   end
   
   private
@@ -44,7 +35,7 @@ class AnswersController < ApplicationController
 
   def check_user
     unless current_user.author_of?(@answer)
-      redirect_to root_path, notice:'Access denied' and return true
+      redirect_to root_path, notice: 'Access denied'
     end
   end
 end

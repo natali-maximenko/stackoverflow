@@ -14,6 +14,10 @@ RSpec.describe AnswersController, type: :controller do
         expect{ subject }.to change(answers, :count).by(1)
       end
 
+      it 'saves answer by current user' do
+        expect{ subject }.to change(user.answers, :count).by(1)
+      end
+
       it 'redirects to show view' do
         subject
         expect(response).to redirect_to question_path(assigns(:question))
@@ -48,29 +52,27 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    let!(:answer) { create(:answer, user: user) }
+    let!(:answer) { create(:answer, user: user, question: question) }
     subject { delete :destroy, params: { question_id: question, id: answer } }
 
     context 'owner' do
       before { login(user) }
-      let(:answers) { Answer.where(user: user) }
 
       it 'deletes answer' do
-        expect{ subject }.to change(answers, :count).by(-1)
+        expect{ subject }.to change(Answer, :count).by(-1)
       end
 
       it 'redirect to question path' do
         subject
-        expect(response).to redirect_to question_path(question)
+        expect(response).to redirect_to question
       end
     end
 
     context 'not owner' do
       before { login(user2) }
-      let(:user_answers) { user.answers }
 
       it 'not deletes answer' do
-        expect{ subject }.to_not change(user_answers, :count)
+        expect{ subject }.to_not change(Answer, :count)
       end
 
       it 'redirect to root path' do

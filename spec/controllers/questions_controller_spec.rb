@@ -45,6 +45,10 @@ RSpec.describe QuestionsController, type: :controller do
       it 'saves the new question in the database' do
         expect{ subject }.to change(Question, :count).by(1)
       end
+
+      it 'saves question by current user' do
+        expect{ subject }.to change(user.questions, :count).by(1)
+      end
   
       it 'redirects to show view' do
         subject
@@ -74,7 +78,7 @@ RSpec.describe QuestionsController, type: :controller do
       before { login(user) }
 
       it 'deletes question' do
-        expect{ delete :destroy, params: { id: question } }.to change(questions, :count).by(-1)
+        expect{ delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
       end
 
       it 'redirect to index view' do
@@ -85,11 +89,10 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'not owner' do
       before { login(user2) }
-      let(:user_questions) { user.questions }
       subject { delete :destroy, params: { id: question } }
 
       it 'not deletes question' do
-        expect{ subject }.to_not change(user_questions, :count)
+        expect{ subject }.to_not change(Question, :count)
       end
 
       it 'redirect to root path' do

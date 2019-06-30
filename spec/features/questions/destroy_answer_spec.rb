@@ -1,15 +1,14 @@
 feature "Destroy answer", type: :feature do
-  let!(:user) { create(:user) }
-  let!(:question) { create(:question, user: user) }
-  let!(:answer) { create(:answer, user: user, question: question) }
-  let!(:other_user) { create(:user) }
+  given!(:user) { create(:user) }
+  given!(:question) { create(:question, user: user) }
+  given!(:answer) { create(:answer, user: user, question: question) }
+  given!(:other_user) { create(:user) }
 
   scenario 'Authenticated user destroy the question' do
     sign_in(user)
     visit question_path(question)
 
     expect(page).to have_content answer.body
-    expect(page).to have_link 'destroy'
     click_link 'destroy'
 
     expect(page).to have_content 'Your answer successfully destroyed.'

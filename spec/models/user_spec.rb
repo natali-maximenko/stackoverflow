@@ -12,11 +12,11 @@ RSpec.describe User, type: :model do
     let(:user) { create(:user) }
 
     it 'when user is not owner it falsey' do
-      expect(user.author_of?(answer)).to be_falsey
+      expect(user).to_not be_author_of(answer)
     end
 
     it 'when user is owner it truthy' do
-      expect(girl.author_of?(answer)).to be_truthy
+      expect(girl).to be_author_of(answer)
     end
   end
 end

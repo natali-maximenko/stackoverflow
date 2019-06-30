@@ -1,6 +1,6 @@
 feature "Create answer", type: :feature do
-  let!(:user) { create(:user) }
-  let!(:question) { create(:question, user: user) }
+  given(:user) { create(:user) }
+  given(:question) { create(:question, user: user) }
 
   describe 'Authenticated user' do
     background do

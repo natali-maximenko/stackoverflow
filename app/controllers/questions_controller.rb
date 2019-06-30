@@ -1,6 +1,7 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create]
   before_action :find_question, only: [:show, :destroy]
+  before_action :check_user, only: [:destroy]
 
   def index
     @questions = Question.all 
@@ -25,7 +26,6 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    check_user and return
     @question.destroy
     redirect_to questions_path, notice: 'Your question successfully destroyed.'
   end
@@ -42,7 +42,7 @@ class QuestionsController < ApplicationController
 
   def check_user
     unless current_user.author_of?(@question)
-      redirect_to root_path, notice:'Access denied' and return true
+      redirect_to root_path, notice: 'Access denied'
     end
   end
 end

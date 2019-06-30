@@ -16,6 +16,6 @@ table.table.table-striped
         td
           button.btn.btn-link type="button"
             = link_to 'show', question_path(question)
-          - if user_signed_in? && current_user.author_of?(question)
+          - if current_user&.author_of?(question)
             button.btn.btn-link type="button"
               = link_to 'destroy', question_path(question), method: :delete

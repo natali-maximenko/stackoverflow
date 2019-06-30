@@ -1,6 +1,6 @@
 feature "Questions list" do
-  let!(:user) { create(:user) }
-  let!(:questions) { create_list(:question, 3, user: user) }
+  given!(:user) { create(:user) }
+  given!(:questions) { create_list(:question, 3, user: user) }
 
   scenario 'Authenticated user view questions' do
     sign_in(user)

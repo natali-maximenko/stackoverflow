@@ -1,8 +1,8 @@
 feature "Show question with answers", type: :feature do
-  let!(:user) { create(:user) }
-  let!(:question) { create(:question, user: user) }
-  let!(:answers) { create_list(:answer, 3, user: user, question: question) }
-  let!(:other_user) { create(:user) }
+  given!(:user) { create(:user) }
+  given!(:question) { create(:question, user: user) }
+  given!(:answers) { create_list(:answer, 3, user: user, question: question) }
+  given!(:other_user) { create(:user) }
 
   scenario 'Authenticated user view question with answer' do
       sign_in(user)
