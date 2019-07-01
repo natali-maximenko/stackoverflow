@@ -1,13 +1,19 @@
 FactoryBot.define do
+  sequence :title do |n|
+    "Question ##{n}"
+  end
+
   factory :question do
-    title { "MyString" }
+    title
     body { "MyText" }
+    user
 
     trait :invalid do
       title { nil }
     end
 
     factory :question_with_answers do
+      user
       transient do
         answers_count { 5 }
       end

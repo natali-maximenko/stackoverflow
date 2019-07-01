@@ -1,0 +1,7 @@
+- if resource&.errors.present?
+  .alert.alert-error
+    a.close data-dismiss="alert"
+     | &#215;
+    ul
+      - resource.errors.full_messages.each do |msg|
+        = content_tag :li, msg, :id => "error_#{msg}"

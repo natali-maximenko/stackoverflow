@@ -1,0 +1,17 @@
+doctype html
+html
+  head
+    title Stackoverflow
+    = csrf_meta_tags
+    = csp_meta_tag
+
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+  body
+    = render 'layouts/header'
+    div.container
+      - if notice
+        .alert.alert-primary role="alert" = notice
+      - if alert  
+        .alert.alert-danger role="alert" = alert
+      = yield
