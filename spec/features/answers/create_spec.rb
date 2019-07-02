@@ -13,7 +13,6 @@ feature "Create answer", type: :feature do
       fill_in 'Your answer', with: 'answer text'
       click_button 'Reply'
 
-      expect(page).to have_content 'Your answer successfully created.'
       expect(page).to have_content 'answer text'
     end
 

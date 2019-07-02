@@ -10,7 +10,6 @@ class AnswersController < ApplicationController
 
   def destroy
     @answer.destroy
-    redirect_to @answer.question, notice: 'Your answer successfully destroyed.'
   end
   
   private
