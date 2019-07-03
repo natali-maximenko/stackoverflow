@@ -1,9 +1,15 @@
 div class="answer_#{answer.id}"
-  p= answer.body
+  span> =answer.body
+
+  - if @question.best_answer == answer
+    b= '- Best answer! '
 
   - if current_user&.author_of?(answer)
-    p= link_to 'Edit Answer', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
-    p= link_to 'Destroy Answer', answer_path(answer), method: :delete, remote: true
+    span> =link_to 'Edit Answer', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+    span> =link_to 'Destroy Answer', answer_path(answer), method: :delete, remote: true
+
+  - if current_user&.author_of?(answer.question) && @question.best_answer != answer
+    span> =link_to 'Make best', best_answer_path(answer), method: :post, remote: true, class: 'best-answer-link', data: { answer_id: answer.id }
 
   div class="answer-#{answer.id}-errors"    
 

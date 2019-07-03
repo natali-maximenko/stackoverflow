@@ -1,8 +1,9 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, only: [ :create ]
   before_action :find_question, only: [:create]
-  before_action :find_answer, only: [:update, :destroy]
-  before_action :check_user, only: [:update, :destroy]
+  before_action :find_answer, only: [:update, :best, :destroy]
+  before_action :check_user, only: [:update,  :destroy]
+  before_action :question_owner, only: [:best]
   
   def create
     @answer = @question.answers.create(answer_params.merge(user: current_user))
@@ -15,6 +16,11 @@ class AnswersController < ApplicationController
 
   def destroy
     @answer.destroy
+  end
+
+  def best
+    @question = @answer.question
+    @question.best_answer = @answer
   end
   
   private
@@ -33,6 +39,12 @@ class AnswersController < ApplicationController
 
   def check_user
     unless current_user.author_of?(@answer)
+      redirect_to root_path, notice: 'Access denied'
+    end
+  end
+
+  def question_owner
+    unless current_user.author_of?(@answer.question)
       redirect_to root_path, notice: 'Access denied'
     end
   end

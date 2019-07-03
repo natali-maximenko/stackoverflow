@@ -1,8 +1,8 @@
 .questions
   = render @question
 
-- if @answers.present?
-.answers
+h3 Answers
+.answers 
   = render @question.answers
 
 - if user_signed_in?

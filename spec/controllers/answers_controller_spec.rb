@@ -51,6 +51,31 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
+  describe 'POST #best' do
+    let!(:answer) { create(:answer, question: question, user: user) }
+    subject { post :best, params: { id: answer }, format: :js }
+
+    context 'not owner' do
+      before { login(user2) }
+
+      it 'can not set best answer to question' do
+        subject 
+        question = answer.question.reload 
+        expect(question.best_answer).to_not eq(answer)
+      end
+    end
+
+    context 'owner' do
+      before { login(user) }
+
+      it 'set best answer to question' do
+        subject 
+        question = answer.question.reload 
+        expect(question.best_answer).to eq(answer)
+      end
+    end
+  end
+
   describe 'PATCH #update' do
     let!(:answer) { create(:answer, question: question, user: user) }
 
