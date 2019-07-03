@@ -20,7 +20,7 @@ class AnswersController < ApplicationController
 
   def best
     @question = @answer.question
-    @question.best_answer = @answer
+    @answer.make_best
   end
   
   private

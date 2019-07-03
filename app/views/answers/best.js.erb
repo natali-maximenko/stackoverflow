@@ -1,1 +1,1 @@
-$('.answers').html('<%= j render @question.sorted_by_best_answers %>');
+$('.answers').html('<%= j render @question.answers.sorted_best %>');

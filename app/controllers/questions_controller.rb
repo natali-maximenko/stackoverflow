@@ -9,7 +9,7 @@ class QuestionsController < ApplicationController
   
   def show
     @answer = Answer.new
-    @answers = @question.sorted_by_best_answers
+    @answers = @question.answers.sorted_best
   end
 
   def new

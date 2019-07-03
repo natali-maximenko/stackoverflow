@@ -60,8 +60,8 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'can not set best answer to question' do
         subject 
-        question = answer.question.reload 
-        expect(question.best_answer).to_not eq(answer)
+        answer.reload
+        expect(answer).to_not be_best
       end
     end
 
@@ -70,8 +70,8 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'set best answer to question' do
         subject 
-        question = answer.question.reload 
-        expect(question.best_answer).to eq(answer)
+        answer.reload
+        expect(answer).to be_best
       end
     end
   end
