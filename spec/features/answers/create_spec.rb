@@ -9,22 +9,21 @@ feature "Create answer", type: :feature do
       visit question_path(question)
     end
 
-    scenario 'Authenticated user create the answer' do
+    scenario 'Authenticated user create the answer', js: true do
       fill_in 'Your answer', with: 'answer text'
       click_button 'Reply'
 
-      expect(page).to have_content 'Your answer successfully created.'
       expect(page).to have_content 'answer text'
     end
 
-    scenario 'Try to create answer with errors' do
+    scenario 'Try to create answer with errors', js: true do
       click_button 'Reply'
 
       expect(page).to have_content "Body can't be blank"
     end  
   end
 
-  scenario 'Non-authenticated user try to create answer' do
+  scenario 'Non-authenticated user try to create answer', js: true do
     visit question_path(question)
     
     expect(page).to_not have_content 'Create Answer'

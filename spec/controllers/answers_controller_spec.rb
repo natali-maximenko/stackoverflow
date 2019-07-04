@@ -8,7 +8,7 @@ RSpec.describe AnswersController, type: :controller do
     let(:answers) { question.answers }
 
     context 'with valid attributes' do
-      subject { post :create, params: { question_id: question, answer: attributes_for(:answer) } }
+      subject { post :create, params: { question_id: question, answer: attributes_for(:answer) }, format: :js }
 
       it 'saves the new answer in the database' do
         expect{ subject }.to change(answers, :count).by(1)
@@ -18,23 +18,23 @@ RSpec.describe AnswersController, type: :controller do
         expect{ subject }.to change(user.answers, :count).by(1)
       end
 
-      it 'redirects to show view' do
+      it 'renders create template'  do
         subject
-        expect(response).to redirect_to question_path(assigns(:question))
+        expect(response).to render_template :create
       end
     end
 
     context 'with invalid attributes' do
       let(:invalid_answer) { question.build(:invalid_answer) }
-      subject { post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) } }
+      subject { post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) }, format: :js }
 
       it 'does not save the answer' do
         expect{ subject }.to_not change(answers, :count)
       end
 
-      it 're-renders errors' do
+      it 'renders create template' do
         subject
-        expect(response).to render_template 'questions/show'
+        expect(response).to render_template :create
       end
     end
   end
@@ -51,9 +51,79 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
+  describe 'POST #best' do
+    let!(:answer) { create(:answer, question: question, user: user) }
+    subject { post :best, params: { id: answer }, format: :js }
+
+    context 'not owner' do
+      before { login(user2) }
+
+      it 'can not set best answer to question' do
+        subject 
+        answer.reload
+        expect(answer).to_not be_best
+      end
+    end
+
+    context 'owner' do
+      before { login(user) }
+
+      it 'set best answer to question' do
+        subject 
+        answer.reload
+        expect(answer).to be_best
+      end
+    end
+  end
+
+  describe 'PATCH #update' do
+    let!(:answer) { create(:answer, question: question, user: user) }
+
+    context 'owner' do
+      before { login(user) }
+
+      context 'with valid attributes' do
+        it 'changes answer attributes' do
+          patch :update, params: { id: answer, answer: { body: 'new body' } }, format: :js
+          answer.reload
+          expect(answer.body).to eq 'new body'
+        end
+
+        it 'renders update view' do
+          patch :update, params: { id: answer, answer: { body: 'new body' } }, format: :js
+          expect(response).to render_template :update
+        end
+      end
+
+      context 'with invalid attributes' do
+        it 'does not change answer attributes' do
+          expect do
+            patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }, format: :js
+          end.to_not change(answer, :body)
+        end
+
+        it 'renders update view' do
+          patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }, format: :js
+          expect(response).to render_template :update
+        end
+      end
+    end
+
+    context 'not owner' do
+      before { login(user2) }
+
+      it 'does not change answer attributes' do
+        body = answer.body
+        patch :update, params: { id: answer, answer: { body: 'new body' } }, format: :js
+        answer.reload
+        expect(answer.body).to eq body
+      end
+    end
+  end
+
   describe 'DELETE #destroy' do
     let!(:answer) { create(:answer, user: user, question: question) }
-    subject { delete :destroy, params: { question_id: question, id: answer } }
+    subject { delete :destroy, params: { question_id: question, id: answer }, format: :js }
 
     context 'owner' do
       before { login(user) }
@@ -62,9 +132,9 @@ RSpec.describe AnswersController, type: :controller do
         expect{ subject }.to change(Answer, :count).by(-1)
       end
 
-      it 'redirect to question path' do
+      it 'render destroy template' do
         subject
-        expect(response).to redirect_to question
+        expect(response).to render_template :destroy
       end
     end
 

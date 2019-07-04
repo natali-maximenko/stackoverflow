@@ -1,7 +1,7 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create]
-  before_action :find_question, only: [:show, :destroy]
-  before_action :check_user, only: [:destroy]
+  before_action :find_question, only: [:show, :update, :destroy]
+  before_action :check_user, only: [:update, :destroy]
 
   def index
     @questions = Question.all 
@@ -9,7 +9,7 @@ class QuestionsController < ApplicationController
   
   def show
     @answer = Answer.new
-    @answers = @question.answers
+    @answers = @question.answers.sorted_best
   end
 
   def new
@@ -23,6 +23,10 @@ class QuestionsController < ApplicationController
     else
       render :new, question: @question
     end
+  end
+
+  def update
+    @question.update(question_params) 
   end
 
   def destroy

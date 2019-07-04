@@ -1,0 +1,5 @@
+$('.answer-<%= @answer.id %>-errors').html('<%= render 'layouts/errors', resource: @answer %>');
+
+<% if !@answer.errors.present? %>
+  $('.answer_<%= @answer.id %>').html('<%= j render @answer %>');
+<% end %>

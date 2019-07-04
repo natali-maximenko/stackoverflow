@@ -70,6 +70,45 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
+  describe 'PATCH #update' do
+    let!(:question) { create(:question, user: user) }
+    before { login(user) }
+
+    context 'with valid attributes' do
+      it 'assings the requested question to @question' do
+        patch :update, params: { id: question, question: attributes_for(:question) }, format: :js
+        expect(assigns(:question)).to eq question
+      end
+
+      it 'changes question attributes' do
+        patch :update, params: { id: question, question: { title: 'new title', body: 'new body' } }, format: :js
+        question.reload
+
+        expect(question.title).to eq 'new title'
+        expect(question.body).to eq 'new body'
+      end
+
+      it 'renders update template' do
+        patch :update, params: { id: question, question: attributes_for(:question) }, format: :js
+        expect(response).to render_template :update
+      end
+    end
+
+    context 'with invalid attributes' do
+      before { patch :update, params: { id: question, question: attributes_for(:question, :invalid) }, format: :js }
+
+      it 'does not change question' do
+        question.reload
+
+        expect(question.body).to eq 'MyText'
+      end
+
+      it 'render updated template' do
+        expect(response).to render_template :update
+      end
+    end
+  end
+
   describe 'DELETE #destroy' do
     let!(:question) { create(:question, user: user) }
     let(:questions) { user.questions }
