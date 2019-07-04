@@ -26,8 +26,10 @@ RSpec.describe Answer, type: :model do
     end
 
     context 'when question have best answer' do
-      let!(:old_best) { answer.update(best: true) }
-      before { girl_answer.make_best }
+      before do
+        answer.update(best: true)
+        girl_answer.make_best 
+      end
 
       it 'change one best answer to another' do
         expect(girl_answer).to be_best
