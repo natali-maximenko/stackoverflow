@@ -11,6 +11,10 @@
         = f.label :body
         = f.text_area :body, class: 'form-control'
 
+      form-group
+        = f.label :files
+        = f.file_field :files, class: 'form-control', multiple: true  
+
       .actions.form-group
         .col-sm-10
           = f.submit 'Ask', class: 'btn btn-success'
