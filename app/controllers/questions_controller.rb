@@ -34,16 +34,6 @@ class QuestionsController < ApplicationController
     redirect_to questions_path, notice: 'Your question successfully destroyed.'
   end
 
-  def destroy_file
-    file = ActiveStorage::Attachment.find(params[:id])
-    if current_user.author_of?(file.record)
-      file.purge
-      redirect_to file.record, notice: 'Your file succesfully destroyed.'
-    else
-      redirect_to root_path, notice: 'Access denied'
-    end
-  end
-
   private
 
   def find_question

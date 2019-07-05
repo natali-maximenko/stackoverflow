@@ -5,7 +5,8 @@ class FilesController < ApplicationController
 
   def destroy
     @file.purge
-    redirect_to @file.record, notice: 'Your file succesfully destroyed.'
+    path = @file.record.is_a?(Question) ? @file.record : @file.record.question
+    redirect_to path, notice: 'Your file succesfully destroyed.'
   end
 
   private
