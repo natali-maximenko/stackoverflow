@@ -17,6 +17,10 @@ h3 Answers
         = f.label :body, 'Your answer'
         = f.text_field :body, class: 'form-control'
 
+      .form-group
+        = f.label :files
+        = f.file_field :files, multiple: true
+
       .actions.form-group
         .col-sm-10
           = f.submit 'Reply', class: 'btn btn-success'
