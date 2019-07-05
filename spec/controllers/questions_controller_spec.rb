@@ -140,4 +140,33 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
+
+  describe 'DELETE #destroy_file' do
+    before { login(user) }
+    let!(:question) { create(:question, user: user, files: ["#{Rails.root}/spec/rails_helper.rb"]) }
+    let(:file) { question.files.first }
+    subject { delete :destroy_file, params: { id: file } }
+  
+    context 'User destroy file in his question' do
+      #before { question }
+  
+      it 'destroys the file' do
+        expect { subject }.to change(question.files, :count).by(-1)
+      end
+  
+      it 'redirects to show view' do
+        subject
+        expect(response).to redirect_to question_path(question)
+      end
+    end
+  
+    # context 'User tries to delete file to another question' do
+    #   before { login(user2) }
+    #   # before { question }
+  
+    #   it 'does not delete file' do
+    #     expect { subject }.to_not change(question.files, :count)
+    #   end
+    # end
+  end
 end

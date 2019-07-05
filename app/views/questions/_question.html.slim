@@ -5,6 +5,8 @@ div class="question_#{question.id}"
   - if question.files.attached?
     - question.files.each do |file|
       p= link_to file.filename.to_s, url_for(file)
+      - if current_user&.author_of?(question)
+        p= link_to 'Destroy file', file_path(file), method: :delete
 
   - if current_user&.author_of?(question)
     p= link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: question.id }

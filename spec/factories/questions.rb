@@ -12,6 +12,16 @@ FactoryBot.define do
       title { nil }
     end
 
+    factory :question_with_file do
+      user
+
+      after(:create) do |question|
+        file_path = Rails.root.join('spec', 'fixtures', 'image.gif')
+        file = fixture_file_upload(file_path, 'image/gif')
+        question.files.attach(file)
+      end
+    end
+
     factory :question_with_answers do
       user
       transient do
