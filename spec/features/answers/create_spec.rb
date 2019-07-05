@@ -22,7 +22,7 @@ feature "Create answer", type: :feature do
       expect(page).to have_content "Body can't be blank"
     end
 
-    scenario 'Reply with attached file', js: true do
+    scenario 'Reply with attached files', js: true do
       fill_in 'Your answer', with: 'answer text'
       attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
       click_button 'Reply'
