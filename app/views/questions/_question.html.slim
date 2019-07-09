@@ -20,5 +20,5 @@ div class="question_#{question.id}"
     = f.label :body
     = f.text_area :body
     = f.label :files
-    = f.file_field :files, multiple: true
+    = f.file_field :files, multiple: true, direct_upload: true
     = f.submit 'Save'
