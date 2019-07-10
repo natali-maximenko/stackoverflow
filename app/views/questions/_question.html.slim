@@ -12,6 +12,12 @@ div class="question_#{question.id}"
     p= link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: question.id }
     p= link_to 'Destroy', question_path(question), method: :delete, remote: true
 
+  .links
+    p Links:
+    ul
+      - question.links.each do |link|
+        li= link_to link.name, link.url  
+
   div class="question-#{question.id}-errors"    
 
   = form_with model: question, class: 'hidden', html: { id: "edit-question-#{question.id}" } do |f|
