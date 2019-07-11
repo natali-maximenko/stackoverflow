@@ -13,6 +13,7 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 gem 'jquery-rails'
 gem 'aws-sdk-s3', require: false
+gem 'cocoon'
 
 # Templates
 gem 'slim-rails'
