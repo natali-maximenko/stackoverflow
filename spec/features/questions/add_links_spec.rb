@@ -9,8 +9,7 @@ feature 'User can add links to question' do
     fill_in 'Title', with: 'Test question'
     fill_in 'Body', with: 'text text text'
 
-    click_link 'Add link'
-    # save_and_open_page
+    click_on 'Add link'
     
     fill_in 'Link name', with: 'My gist'
     fill_in 'Url', with: gist_url
