@@ -13,6 +13,8 @@ div class="answer_#{answer.id}"
     ul
       - answer.links.each do |link|
         li= link_to link.name, link.url
+        - if current_user&.author_of?(answer)
+          span= link_to 'Destroy answer link', link_path(link), method: :delete
 
   - if current_user&.author_of?(answer.question) && !answer.best?
     span> =link_to 'Make best', best_answer_path(answer), method: :post, remote: true, class: 'best-answer-link'
