@@ -1,13 +1,13 @@
 .questions
   = render @question
 
-h3 Answers
+h5 Answers
 .answers 
   = render @question.answers
 
 - if user_signed_in?
   div
-    h4
+    h6
       | Create Answer
     .answer-errors
       = render 'layouts/errors', resource: @answer
@@ -21,7 +21,7 @@ h3 Answers
         = f.label :files
         = f.file_field :files, multiple: true, direct_upload: true
 
-      h3 Links:
+      p Links:
       p
         = f.fields_for :links do |l|
         = link_to_add_association 'Add link', f, :links, partial: 'links/link_fields'

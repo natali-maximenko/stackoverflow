@@ -8,6 +8,9 @@ div class="answer_#{answer.id}"
     span> =link_to 'Edit Answer', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
     span> =link_to 'Destroy Answer', answer_path(answer), method: :delete, remote: true
 
+  - if current_user&.author_of?(answer.question) && !answer.best?
+    span> =link_to 'Make best', best_answer_path(answer), method: :post, remote: true, class: 'best-answer-link'  
+
   .links
     p Links:
     ul
@@ -16,10 +19,8 @@ div class="answer_#{answer.id}"
         - if current_user&.author_of?(answer)
           span= link_to 'Destroy answer link', link_path(link), method: :delete
 
-  - if current_user&.author_of?(answer.question) && !answer.best?
-    span> =link_to 'Make best', best_answer_path(answer), method: :post, remote: true, class: 'best-answer-link'
-
   - if answer.files.attached?
+    p Files:
     - answer.files.each do |file|
       p= link_to file.filename.to_s, url_for(file)
       - if current_user&.author_of?(answer)
@@ -30,7 +31,11 @@ div class="answer_#{answer.id}"
   = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
     = f.label :body, 'Your answer'
     = f.text_area :body
-    = f.label :files
-    = f.file_field :files, multiple: true, direct_upload: true
+    p
+      = f.label :files
+      = f.file_field :files, multiple: true, direct_upload: true
+    p
+      = f.fields_for :links do |l|
+      = link_to_add_association 'Add link', f, :links, partial: 'links/link_fields'
     = f.submit 'Save'
   

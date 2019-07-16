@@ -2,23 +2,29 @@ div class="question_#{question.id}"
   p =question.title
   p =question.body
 
-  - if question.files.attached?
-    - question.files.each do |file|
-      p= link_to file.filename.to_s, url_for(file)
-      - if current_user&.author_of?(question)
-        p= link_to 'Destroy file', file_path(file), method: :delete
-
   - if current_user&.author_of?(question)
     p= link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: question.id }
     p= link_to 'Destroy', question_path(question), method: :delete, remote: true
 
-  .links
-    p Links:
-    ul
-      - question.links.each do |link|
-        li= link_to link.name, link.url
-        - if current_user&.author_of?(question)
-          span= link_to 'Destroy link', link_path(link), method: :delete
+  - if question.files.attached?
+    p Files:
+    - question.files.each do |file|
+      p= link_to file.filename.to_s, url_for(file)
+      - if current_user&.author_of?(question)
+        p= link_to 'Destroy file', file_path(file), method: :delete  
+
+  - if question.links.any?
+    .links
+      p Links:
+      ul
+        - question.links.each do |link|
+          li
+            - if gist?(link)
+              script src="#{link.url}.js"
+            - else
+              = link_to link.name, link.url
+          - if current_user&.author_of?(question)
+            span= link_to 'Destroy link', link_path(link), method: :delete
 
   div class="question-#{question.id}-errors"    
 
@@ -27,6 +33,10 @@ div class="question_#{question.id}"
     = f.text_field :title
     = f.label :body
     = f.text_area :body
+    p
     = f.label :files
     = f.file_field :files, multiple: true, direct_upload: true
+    p
+      = f.fields_for :links do |l|
+      = link_to_add_association 'Add link', f, :links, partial: 'links/link_fields'
     = f.submit 'Save'
