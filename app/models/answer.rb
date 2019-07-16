@@ -16,6 +16,11 @@ class Answer < ApplicationRecord
       old_best_answer = question.best_answer
       old_best_answer.update!(best: false) if old_best_answer
       update!(best: true)
+      send_reward
     end
+  end
+
+  def send_reward
+    question.reward.update!(user: user) if question.reward.present?
   end
 end
