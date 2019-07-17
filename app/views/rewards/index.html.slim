@@ -1,0 +1,18 @@
+h3 Rewards list
+
+table.table.table-striped
+  thead
+    tr
+      th
+        | Question
+      th 
+        | Reward  
+      th colspan="3"
+  tbody
+    - @rewards.each do |reward|
+      tr
+        td= reward.question.title
+        td= reward.name
+        td
+        - if reward.file.present?
+          = link_to reward.file.filename.to_s, url_for(reward.file)

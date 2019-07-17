@@ -6,6 +6,7 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light style="background-color: #71da
     ul.navbar-nav
       - if current_user
         li.nav-item = link_to 'Questions', questions_path, class: "nav-link"
+        li.nav-item = link_to 'Rewards', rewards_path, class: "nav-link"
         li.nav-item = link_to 'Add question', new_question_path, class: "nav-link"   
       - else
         li = link_to 'Signup', new_user_registration_path, class: "nav-link"   

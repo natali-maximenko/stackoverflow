@@ -12,6 +12,10 @@ FactoryBot.define do
       title { nil }
     end
 
+    trait :with_reward do
+      reward { create(:reward, question: question) }
+    end
+
     factory :question_with_file do
       user
 

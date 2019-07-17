@@ -1,5 +1,7 @@
 FactoryBot.define do
   factory :reward do
-    name { "MyString" }
+    name { 'Reward' }
+    question
+    user
   end
 end
