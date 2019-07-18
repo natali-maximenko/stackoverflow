@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   devise_for :users
-  resources :files, only: [:destroy]
+  resources :files, only: :destroy
+  resources :links, only: :destroy
+  resources :rewards, only: :index
   resources :questions do
     resources :answers, shallow: true do
       member do

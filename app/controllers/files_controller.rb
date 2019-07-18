@@ -1,5 +1,5 @@
 class FilesController < ApplicationController
-  before_action :authenticate_user!, only: [:destroy]
+  before_action :authenticate_user!
   before_action :find_file, only: [:destroy]
   before_action :check_user, only: [:destroy]
 

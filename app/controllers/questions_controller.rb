@@ -10,10 +10,13 @@ class QuestionsController < ApplicationController
   def show
     @answer = Answer.new
     @answers = @question.answers.sorted_best
+    @answer.links.new
   end
 
   def new
     @question = Question.new
+    @question.links.new
+    @question.build_reward
   end
 
   def create
@@ -41,7 +44,7 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, files: [])
+    params.require(:question).permit(:title, :body, files: [], links_attributes: [:name, :url], reward_attributes: [:name, :file])
   end
 
   def check_user
