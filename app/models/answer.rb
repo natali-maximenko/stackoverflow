@@ -21,6 +21,6 @@ class Answer < ApplicationRecord
   end
 
   def send_reward
-    question.reward.update!(user: user) if question.reward.present?
+    question.reward&.update!(user: user)
   end
 end
