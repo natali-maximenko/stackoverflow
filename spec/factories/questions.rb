@@ -16,6 +16,14 @@ FactoryBot.define do
       reward { create(:reward, question: question) }
     end
 
+    factory :question_with_reward do
+      user 
+      
+      after(:create) do |question|
+        create(:reward, question: question)
+      end
+    end
+
     factory :question_with_file do
       user
 

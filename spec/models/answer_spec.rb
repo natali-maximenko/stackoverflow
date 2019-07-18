@@ -14,7 +14,7 @@ RSpec.describe Answer, type: :model do
   describe '#make_best' do
     let!(:user) { create(:user) }
     let!(:girl) { create(:user) }
-    let!(:question) { create(:question, user: user) }
+    let!(:question) { create(:question_with_reward, user: user) }
     let!(:answer) { create(:answer, question: question, user: user) }
     let!(:girl_answer) { create(:answer, question: question, user: girl) }
 
@@ -29,6 +29,10 @@ RSpec.describe Answer, type: :model do
       it 'question has one best answer' do
         best_answers = question.answers.where(best: true)
         expect(best_answers.count).to eq(1)
+      end
+
+      it 'add reward to answer owner' do
+        expect(girl.rewards.first).to eq(question.reward)
       end
     end
 

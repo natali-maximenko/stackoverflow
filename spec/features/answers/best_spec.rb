@@ -2,7 +2,7 @@ feature 'Question owner set best answer' do
   given(:user) { create(:user) }
   given(:user2) { create(:user) }
   given(:question) { create(:question, user: user) }
-  given!(:answer) { create(:answer, question: question, user: user) }
+  given!(:answer) { create(:answer, question: question, user: user2) }
 
   scenario 'Non-authenticated user try set best answer' do
     visit question_path(question)

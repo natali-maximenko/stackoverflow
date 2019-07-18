@@ -12,7 +12,7 @@ feature 'Authenticated user can see rewards list' do
     visit rewards_path
 
     user_rewards.each do |reward|
-      expect(page).to have_content reward.title
+      expect(page).to have_content reward.name
       expect(page).to have_content reward.question.title
     end
   end

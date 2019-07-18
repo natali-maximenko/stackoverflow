@@ -8,7 +8,7 @@ div class="answer_#{answer.id}"
     span> =link_to 'Edit Answer', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
     span> =link_to 'Destroy Answer', answer_path(answer), method: :delete, remote: true
 
-  - if current_user&.author_of?(answer.question) && !answer.best?
+  - if current_user&.author_of?(answer.question) && !answer.best? && !current_user&.author_of?(answer)
     span> =link_to 'Make best', best_answer_path(answer), method: :post, remote: true, class: 'best-answer-link'  
 
   .links
