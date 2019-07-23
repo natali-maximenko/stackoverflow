@@ -76,6 +76,24 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
+  describe 'POST #like' do
+    let!(:answer) { create(:answer, question: question, user: user) }
+    before { login(user2) }
+
+    it 'saves new vote' do
+      expect { post :like, params: { id: answer.id, format: :json } }.to change(answer.votes, :count).by(1)
+    end
+  end
+
+  describe 'POST #dislike' do
+    let!(:answer) { create(:answer, question: question, user: user) }
+    before { login(user2) }
+
+    it 'saves a new vote in the database' do
+      expect { post :like, params: { id: answer.id, format: :json } }.to change(answer.votes, :count).by(1)
+    end
+  end
+
   describe 'PATCH #update' do
     let!(:answer) { create(:answer, question: question, user: user) }
 
