@@ -6,21 +6,17 @@ module Votable
   end
 
   def like
-    vote = votes.find_by(value: -1, user: user)
-    if vote.present?
-      vote.update!(value: 1)
-    else
-      votes.create!(value: 1, user: user)
-    end
+    negative = votes.find_by(value: -1, user: user)
+    positive = votes.find_by(value: 1, user: user)
+    negative.update!(value: 1) if negative.present?
+    votes.create!(value: 1, user: user) if positive.blank? && negative.blank?
   end
 
   def dislike
-    vote = votes.find_by(value: 1, user: user)
-    if vote.present?
-      vote.update!(value: -1)
-    else
-      votes.create!(value: -1, user: user)
-    end
+    positive = votes.find_by(value: 1, user: user)
+    negative = votes.find_by(value: -1, user: user)
+    positive.update!(value: -1) if positive.present?
+    votes.create!(value: -1, user: user) if positive.blank? && negative.blank?
   end
 
   def rating
