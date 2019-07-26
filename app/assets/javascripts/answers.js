@@ -3,7 +3,13 @@ $(document).on('turbolinks:load', function(){
       e.preventDefault();
       $(this).hide();
       var answerId = $(this).data('answerId');
-      console.log(answerId);
+      
       $('form#edit-answer-' + answerId).removeClass('hidden');
-  })
+  });
+
+  $('.answer_like').on('ajax:success', function (e) {
+    var vote = e.detail[0];
+
+    $('.answer_rating_' + vote['id']).html('<b>' + vote['rating'] + '</b>');
+  });
 });

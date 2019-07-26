@@ -3,8 +3,16 @@ Rails.application.routes.draw do
   resources :files, only: :destroy
   resources :links, only: :destroy
   resources :rewards, only: :index
-  resources :questions do
-    resources :answers, shallow: true do
+
+  concern :votable do
+    member do
+      post :like
+      post :dislike
+    end
+  end
+
+  resources :questions, concerns: :votable do
+    resources :answers, shallow: true, concerns: :votable do
       member do
         post :best
       end

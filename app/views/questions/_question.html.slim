@@ -28,6 +28,14 @@ div class="question_#{question.id}"
           - if current_user&.author_of?(question)
             span= link_to 'Destroy link', link_path(link), method: :delete
 
+  .question_votes
+    - if current_user && !current_user&.author_of?(question)
+      .question_like
+        => link_to 'Up!', polymorphic_path(question, action: :like), method: :post, remote: true, data: { type: :json }
+        .question_rating
+          b= question.rating
+        => link_to 'Down', polymorphic_path(question, action: :dislike), method: :post, remote: true, data: { type: :json }     
+
   div class="question-#{question.id}-errors"    
 
   = form_with model: question, class: 'hidden', html: { id: "edit-question-#{question.id}" } do |f|

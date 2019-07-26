@@ -9,7 +9,15 @@ div class="answer_#{answer.id}"
     span> =link_to 'Destroy Answer', answer_path(answer), method: :delete, remote: true
 
   - if current_user&.author_of?(answer.question) && !answer.best? && !current_user&.author_of?(answer)
-    span> =link_to 'Make best', best_answer_path(answer), method: :post, remote: true, class: 'best-answer-link'  
+    span> =link_to 'Make best', best_answer_path(answer), method: :post, remote: true, class: 'best-answer-link'
+
+  .answer_votes
+    - if current_user && !current_user&.author_of?(answer)
+      .answer_like
+        => link_to 'Up!', polymorphic_path(answer, action: :like), method: :post, remote: true, data: { type: :json }
+        div class="answer_rating_#{answer.id}"
+          b= answer.rating 
+        => link_to 'Down', polymorphic_path(answer, action: :dislike), method: :post, remote: true, data: { type: :json }
 
   .links
     p Links:
