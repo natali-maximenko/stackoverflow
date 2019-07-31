@@ -4,6 +4,7 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create]
   before_action :find_question, only: [:show, :update, :destroy]
   before_action :check_user, only: [:update, :destroy]
+  after_action :publish_question, only: [:create]
 
   def index
     @questions = Question.all 
@@ -43,6 +44,8 @@ class QuestionsController < ApplicationController
 
   def find_question
     @question = Question.with_attached_files.find(params[:id])
+    gon.question_id = @question.id
+    gon.question_user_id = @question.user_id
   end
 
   def question_params
@@ -53,5 +56,11 @@ class QuestionsController < ApplicationController
     unless current_user.author_of?(@question)
       redirect_to root_path, notice: 'Access denied'
     end
+  end
+
+  def publish_question
+    return if @question.errors.any?
+
+    ActionCable.server.broadcast('questions', question: @question)
   end
 end

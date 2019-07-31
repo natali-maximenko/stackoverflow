@@ -20,4 +20,5 @@ Rails.application.routes.draw do
   end
 
   root to: "questions#index"
+  mount ActionCable.server => '/cable'
 end
