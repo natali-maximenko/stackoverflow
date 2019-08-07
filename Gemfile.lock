@@ -300,7 +300,6 @@ DEPENDENCIES
   coffee-rails (~> 4.2)
   devise
   dotenv-rails
-  execjs
   factory_bot_rails
   gon
   jbuilder (~> 2.5)
