@@ -1,7 +1,7 @@
 class CommentsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_resource, only: :create
-  before_action :find_comment, only: %i[update destroy]
+  before_action :find_comment, only: [:update, :destroy]
   after_action :publish_comment, only: :create
 
   def create
