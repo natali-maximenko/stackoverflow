@@ -15,6 +15,11 @@
 //= require bootstrap  
 //= require rails-ujs
 //= require activestorage
+//= require action_cable
 //= require cocoon
+//= require skim
 //= require turbolinks
 //= require_tree .
+
+var App = App = {};
+App.cable = ActionCable.createConsumer();

@@ -19,6 +19,14 @@ div class="answer_#{answer.id}"
           b= answer.rating 
         => link_to 'Down', polymorphic_path(answer, action: :dislike), method: :post, remote: true, data: { type: :json }
 
+  .answer_comments
+    - if user_signed_in?
+      => link_to 'Add comment', '', class: 'add-comment-link', data: {resource_id: answer.id, resource_type: 'answer'}
+      = render 'comments/form', resource: answer
+    - if answer.comments.size > 1
+      h4= 'Comments:'
+      = render answer.comments  
+
   .links
     p Links:
     ul

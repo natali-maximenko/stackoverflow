@@ -1,6 +1,15 @@
 .questions
   = render @question
 
+.question_comments
+  - if user_signed_in?
+    = link_to 'Add comment', '', class: 'add-comment-link', data: {resource_id: @question.id, resource_type: 'question'}
+    = render 'comments/form', resource: @question
+
+  - if @question.comments.size > 1
+    h4= 'Comments:'
+    = render @question.comments  
+
 br
 h5 Answers
 .answers 

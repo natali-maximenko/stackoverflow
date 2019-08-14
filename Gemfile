@@ -14,10 +14,12 @@ gem 'jbuilder', '~> 2.5'
 gem 'jquery-rails'
 gem 'aws-sdk-s3', require: false
 gem 'cocoon'
+gem 'gon'
 
 # Templates
 gem 'slim-rails'
 gem 'bootstrap'
+gem 'skim'
 # Auth
 gem 'devise'
 # Configuration

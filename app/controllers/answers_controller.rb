@@ -6,6 +6,7 @@ class AnswersController < ApplicationController
   before_action :find_answer, only: [:update, :best, :destroy]
   before_action :check_user, only: [:update,  :destroy]
   before_action :question_owner, only: [:best]
+  after_action :publish_answer, only: [:create]
   
   def create
     @answer = @question.answers.create(answer_params.merge(user: current_user))
@@ -49,5 +50,16 @@ class AnswersController < ApplicationController
     unless current_user.author_of?(@answer.question)
       redirect_to root_path, notice: 'Access denied'
     end
+  end
+
+  def publish_answer
+    return if @answer.errors.any?
+
+    ActionCable.server.broadcast(
+        "answers_question_#{@question.id}",
+        answer: @answer,
+        links: @answer.links,
+        rating: @answer.rating
+    )
   end
 end

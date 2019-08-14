@@ -9,7 +9,7 @@ table.table.table-striped
       th
         | Вопрос
       th colspan="3"
-  tbody
+  tbody.questions-list
     - @questions.each do |question|
       tr
         td= question.title

@@ -1,4 +1,4 @@
-$(document).on('turbolinks:load', function () {
+$(document).on 'turbolinks:load', ->
   $('.questions').on('click', '.edit-question-link', function (e) {
       e.preventDefault();
       $(this).hide();
@@ -11,4 +11,12 @@ $(document).on('turbolinks:load', function () {
 
     $('.question_rating').html('<b>' + vote['rating'] + '</b>');
   });
-});
+
+  App.cable.subscriptions.create('QuestionsChannel', {
+    connected: ->
+      @perform 'follow'
+      ,
+    received: (data) ->
+      console.log(data)
+      $('.questions-list').append(JST["templates/question"](data))
+  });
